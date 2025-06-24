@@ -3,16 +3,16 @@ let separacion = 12;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(1); // evita sobrecarga en móviles
+  pixelDensity(1);
   crearCesped();
 }
 
 function draw() {
   dibujarFondo();
 
-  for (let i = 0; i < cesped.length; i++) {
-    cesped[i].mover(mouseX, mouseY);
-    cesped[i].dibujar();
+  for (let b of cesped) {
+    b.mover(mouseX, mouseY);
+    b.dibujar();
   }
 }
 
@@ -31,7 +31,7 @@ function crearCesped() {
 }
 
 function dibujarFondo() {
-  noStroke();
+  noFill();
   for (let y = 0; y < height; y++) {
     let c = lerpColor(color(192, 235, 192), color(162, 210, 162), y / height);
     stroke(c);
