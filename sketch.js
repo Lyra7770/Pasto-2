@@ -1,5 +1,7 @@
 let cesped = [];
 let separacion = 12;
+let interactX = -1000; // fuera de pantalla inicialmente
+let interactY = -1000;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -10,9 +12,9 @@ function setup() {
 function draw() {
   dibujarFondo();
 
-  for (let brizna of cesped) {
-    brizna.mover(mouseX, mouseY);
-    brizna.dibujar();
+  for (let b of cesped) {
+    b.mover(interactX, interactY);
+    b.dibujar();
   }
 }
 
@@ -24,7 +26,7 @@ function windowResized() {
 function crearCesped() {
   cesped = [];
   for (let x = 0; x < width; x += separacion) {
-    for (let y = height * 0.5; y < height; y += separacion) {
+    for (let y = 0; y < height; y += separacion) {  // TODO el alto para que no quede franja
       cesped.push(new Brizna(x, y));
     }
   }
@@ -37,6 +39,26 @@ function dibujarFondo() {
     stroke(c);
     line(0, y, width, y);
   }
+}
+
+// Manejamos interacción para mouse y touch
+function mouseMoved() {
+  interactX = mouseX;
+  interactY = mouseY;
+}
+function mouseDragged() {
+  interactX = mouseX;
+  interactY = mouseY;
+}
+function touchMoved() {
+  interactX = touches[0].x;
+  interactY = touches[0].y;
+  return false; // para prevenir scrolling en móvil
+}
+function touchStarted() {
+  interactX = touches[0].x;
+  interactY = touches[0].y;
+  return false;
 }
 
 class Brizna {
