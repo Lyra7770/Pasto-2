@@ -5,6 +5,7 @@ let interactY = -1000;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, windowHeight); // Forzar pantalla completa real
   pixelDensity(displayDensity());
   crearCesped();
 }
@@ -17,7 +18,7 @@ function draw() {
     b.dibujar();
   }
 
-  // Suavizar el punto de interacción con el tiempo
+  // Suavizar interacción con el tiempo
   interactX = lerp(interactX, -1000, 0.03);
   interactY = lerp(interactY, -1000, 0.03);
 }
