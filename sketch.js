@@ -5,16 +5,21 @@ let interactY = -1000;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(displayDensity()); // máxima calidad según pantalla
+  pixelDensity(displayDensity());
   crearCesped();
 }
 
 function draw() {
   dibujarFondo();
+
   for (let b of cesped) {
     b.mover(interactX, interactY);
     b.dibujar();
   }
+
+  // Suavizar el punto de interacción con el tiempo
+  interactX = lerp(interactX, -1000, 0.03);
+  interactY = lerp(interactY, -1000, 0.03);
 }
 
 function windowResized() {
@@ -35,7 +40,7 @@ function crearCesped() {
 function dibujarFondo() {
   noFill();
   for (let y = 0; y < height; y++) {
-    let c = lerpColor(color(192, 235, 192), color(162, 210, 162), y / height);
+    let c = lerpColor(color(200, 245, 200), color(160, 210, 160), y / height);
     stroke(c);
     line(0, y, width, y);
   }
@@ -72,28 +77,28 @@ function touchStarted() {
   return false;
 }
 
-// Clase Brizna mejorada
+// Clase brizna de pasto
 class Brizna {
   constructor(x, y) {
     this.x = x;
     this.y = y;
     this.altura = random(30, 55);
     this.angulo = random(TWO_PI);
-    this.oscilacion = random(0.005, 0.015);
-    this.grosor = random(0.9, 1.4);
-    let tonoVerde = random(100, 180);
-    this.color = color(40, tonoVerde, 70, 200);
+    this.oscilacion = random(0.004, 0.01);
+    this.grosor = random(1, 1.5);
+    let tonoVerde = random(90, 180);
+    this.color = color(40, tonoVerde, 60, 220);
     this.inclinacion = 0;
   }
 
   mover(mx, my) {
     this.angulo += this.oscilacion;
-    let viento = sin(this.angulo) * 1.8;
+    let brisa = sin(this.angulo) * 2;
 
     let d = dist(this.x, this.y, mx, my);
-    let efecto = (d < 120) ? map(d, 0, 120, 10, 0) : 0;
+    let efecto = (d < 140) ? map(d, 0, 140, 20, 0) : 0;
 
-    this.inclinacion = viento + efecto;
+    this.inclinacion = brisa + efecto;
   }
 
   dibujar() {
