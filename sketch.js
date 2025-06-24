@@ -7,13 +7,6 @@ function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
   pixelDensity(displayDensity());
   crearCesped();
-
-  // Activar pantalla completa desde dentro del entorno de p5.js
-  const btn = document.getElementById("fullscreenBtn");
-  btn.addEventListener("click", () => {
-    let fs = fullscreen();
-    fullscreen(!fs);
-  });
 }
 
 function draw() {
@@ -24,7 +17,7 @@ function draw() {
     b.dibujar();
   }
 
-
+  // Hacer que el efecto de interacción desaparezca suavemente
   interactX = lerp(interactX, -1000, 0.03);
   interactY = lerp(interactY, -1000, 0.03);
 }
@@ -36,9 +29,9 @@ function windowResized() {
 
 function crearCesped() {
   cesped = [];
-  let alturaCesped = 110;
+  let inicioPasto = 400; // desde más arriba hacia abajo
   for (let x = 0; x < width; x += separacion) {
-    for (let y = height - alturaCesped; y < height; y += separacion) {
+    for (let y = height - inicioPasto; y < height; y += separacion) {
       cesped.push(new Brizna(x, y));
     }
   }
@@ -47,12 +40,13 @@ function crearCesped() {
 function dibujarFondo() {
   noFill();
   for (let y = 0; y < height; y++) {
-    let c = lerpColor(color(200, 245, 200), color(160, 210, 160), y / height);
+    let c = lerpColor(color(163, 216, 244), color(120, 190, 230), y / height);
     stroke(c);
     line(0, y, width, y);
   }
 }
 
+// Interacción con mouse o dedo
 function mouseMoved() {
   interactX = mouseX;
   interactY = mouseY;
@@ -84,16 +78,17 @@ function touchStarted() {
   return false;
 }
 
+// Clase del pasto
 class Brizna {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.altura = random(30, 55);
+    this.altura = random(220, 340); // pasto muy largo
     this.angulo = random(TWO_PI);
-    this.oscilacion = random(0.004, 0.01);
-    this.grosor = random(1, 1.5);
-    let tonoVerde = random(90, 180);
-    this.color = color(40, tonoVerde, 60, 220);
+    this.oscilacion = random(0.004, 0.008); // suave brisa
+    this.grosor = random(1.3, 2.2);
+    let tonoVerde = random(100, 170);
+    this.color = color(50, tonoVerde, 70, 230);
     this.inclinacion = 0;
   }
 
@@ -102,7 +97,7 @@ class Brizna {
     let brisa = sin(this.angulo) * 2;
 
     let d = dist(this.x, this.y, mx, my);
-    let efecto = (d < 140) ? map(d, 0, 140, 20, 0) : 0;
+    let efecto = (d < 180) ? map(d, 0, 180, 30, 0) : 0;
 
     this.inclinacion = brisa + efecto;
   }
