@@ -9,10 +9,24 @@ html, body {
 }
 
 canvas {
+  display: block;
   position: fixed !important;
   top: 0;
   left: 0;
-  display: block;
   width: 100vw !important;
   height: 100vh !important;
+  z-index: 0;
+}
+
+#fullscreenBtn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 10;
 }
