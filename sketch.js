@@ -17,7 +17,7 @@ function draw() {
     b.dibujar();
   }
 
-  // El efecto de interacción se va desvaneciendo
+  // El efecto de interacción se desvanece lentamente
   interactX = lerp(interactX, -1000, 0.03);
   interactY = lerp(interactY, -1000, 0.03);
 }
@@ -77,6 +77,7 @@ function touchStarted() {
   return false;
 }
 
+// Clase para cada brizna de pasto
 class Brizna {
   constructor(x, y) {
     this.x = x;
@@ -117,3 +118,9 @@ class Brizna {
     bezier(x1, y1, x2, y2, x3, y3, x4, y4);
   }
 }
+
+// Botón para activar pantalla completa manualmente
+document.getElementById("fullscreenBtn").addEventListener("click", () => {
+  let fs = fullscreen();
+  fullscreen(!fs);
+});
