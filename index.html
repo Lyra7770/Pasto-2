@@ -3,21 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <title>Pasto Interactivo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: #cdeac0;
       overflow: hidden;
+      background: #cdeac0;
+      height: 100%;
+      width: 100%;
       touch-action: none;
     }
     canvas {
-      display: block;
-      position: fixed;
+      position: fixed !important;
       top: 0;
       left: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      display: block;
     }
   </style>
 </head>
