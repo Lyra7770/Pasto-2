@@ -10,9 +10,9 @@ function setup() {
 function draw() {
   dibujarFondo();
 
-  for (let b of cesped) {
-    b.mover(mouseX, mouseY);
-    b.dibujar();
+  for (let brizna of cesped) {
+    brizna.mover(mouseX, mouseY);
+    brizna.dibujar();
   }
 }
 
