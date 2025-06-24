@@ -1,17 +1,16 @@
 let cesped = [];
-let separacion = 12;
-let interactX = -1000; // fuera de pantalla inicialmente
+let separacion = 10;
+let interactX = -1000;
 let interactY = -1000;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(1);
+  pixelDensity(displayDensity()); // máxima calidad según pantalla
   crearCesped();
 }
 
 function draw() {
   dibujarFondo();
-
   for (let b of cesped) {
     b.mover(interactX, interactY);
     b.dibujar();
@@ -25,8 +24,9 @@ function windowResized() {
 
 function crearCesped() {
   cesped = [];
+  let alturaCesped = 110;
   for (let x = 0; x < width; x += separacion) {
-    for (let y = 0; y < height; y += separacion) {  // TODO el alto para que no quede franja
+    for (let y = height - alturaCesped; y < height; y += separacion) {
       cesped.push(new Brizna(x, y));
     }
   }
@@ -41,50 +41,64 @@ function dibujarFondo() {
   }
 }
 
-// Manejamos interacción para mouse y touch
 function mouseMoved() {
   interactX = mouseX;
   interactY = mouseY;
 }
+
 function mouseDragged() {
   interactX = mouseX;
   interactY = mouseY;
 }
-function touchMoved() {
-  interactX = touches[0].x;
-  interactY = touches[0].y;
-  return false; // para prevenir scrolling en móvil
+
+function mousePressed() {
+  interactX = mouseX;
+  interactY = mouseY;
 }
-function touchStarted() {
-  interactX = touches[0].x;
-  interactY = touches[0].y;
+
+function touchMoved() {
+  if (touches.length > 0) {
+    interactX = touches[0].x;
+    interactY = touches[0].y;
+  }
   return false;
 }
 
+function touchStarted() {
+  if (touches.length > 0) {
+    interactX = touches[0].x;
+    interactY = touches[0].y;
+  }
+  return false;
+}
+
+// Clase Brizna mejorada
 class Brizna {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.altura = random(20, 42);
-    this.inclinacion = 0;
+    this.altura = random(30, 55);
     this.angulo = random(TWO_PI);
+    this.oscilacion = random(0.005, 0.015);
+    this.grosor = random(0.9, 1.4);
     let tonoVerde = random(100, 180);
-    this.color = color(40, tonoVerde, 70, 180);
+    this.color = color(40, tonoVerde, 70, 200);
+    this.inclinacion = 0;
   }
 
   mover(mx, my) {
-    this.angulo += 0.02;
-    let viento = sin(this.angulo) * 1.3;
+    this.angulo += this.oscilacion;
+    let viento = sin(this.angulo) * 1.8;
 
     let d = dist(this.x, this.y, mx, my);
-    let efecto = (d < 140) ? map(d, 0, 140, 4, 0) : 0;
+    let efecto = (d < 120) ? map(d, 0, 120, 10, 0) : 0;
 
     this.inclinacion = viento + efecto;
   }
 
   dibujar() {
     stroke(this.color);
-    strokeWeight(1.1);
+    strokeWeight(this.grosor);
     noFill();
 
     let x1 = this.x;
