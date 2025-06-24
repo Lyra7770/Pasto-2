@@ -4,8 +4,7 @@ let interactX = -1000;
 let interactY = -1000;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  resizeCanvas(windowWidth, windowHeight); // Forzar pantalla completa real
+  createCanvas(window.innerWidth, window.innerHeight);
   pixelDensity(displayDensity());
   crearCesped();
 }
@@ -18,13 +17,13 @@ function draw() {
     b.dibujar();
   }
 
-  // Suavizar interacción con el tiempo
+  // El efecto de interacción se va desvaneciendo
   interactX = lerp(interactX, -1000, 0.03);
   interactY = lerp(interactY, -1000, 0.03);
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(window.innerWidth, window.innerHeight);
   crearCesped();
 }
 
@@ -78,7 +77,6 @@ function touchStarted() {
   return false;
 }
 
-// Clase brizna de pasto
 class Brizna {
   constructor(x, y) {
     this.x = x;
